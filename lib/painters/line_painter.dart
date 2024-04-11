@@ -1,10 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app_sobol/utils/utils.dart';
-
-final isIntersectingController = StateController<bool>(false);
 
 class LinePainter extends CustomPainter {
   final List<Offset> points;
@@ -30,6 +27,7 @@ class LinePainter extends CustomPainter {
       canvas.drawLine(points.last, points.first, paint);
     }
 
+    // Проверка на пересечение линий
     bool isIntersecting = false;
     if (points.length > 2) {
       for (var i = 0; i < points.length - 2; i++) {
@@ -46,7 +44,6 @@ class LinePainter extends CustomPainter {
     } else {
       paint.color = Colors.black;
     }
-
     if (!isPolygonCompleted) {
       canvas.drawLine(points.last, cursorPosition, paint);
     }

@@ -7,8 +7,9 @@ class CursorWidget extends StatelessWidget {
   final IconData icon;
   final double iconSize;
 
-  CursorWidget(
-      {required this.position,
+  const CursorWidget(
+      {super.key,
+      required this.position,
       required this.color,
       required this.onPanUpdate,
       required this.iconSize,
@@ -17,8 +18,8 @@ class CursorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: position.dx - iconSize / 2, // центрирование по горизонтали
-      top: position.dy - iconSize / 2, // центрирование по вертикали
+      left: position.dx - iconSize / 2,
+      top: position.dy - iconSize / 2,
       child: GestureDetector(
         onPanDown: (details) {
           onPanUpdate(DragUpdateDetails(
