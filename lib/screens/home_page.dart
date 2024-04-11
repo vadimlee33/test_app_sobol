@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
     final points = ref.watch(pointsProvider);
     final undoStack = ref.watch(undoStackProvider);
     final redoStack = ref.watch(redoStackProvider);
-    final isPolygonCompleted = ref.watch(isPolygonCompletedProvider);
+    bool isPolygonCompleted = ref.watch(isPolygonCompletedProvider);
     final isIntersecting = ref.watch(isIntersectingProvider);
     return Scaffold(
       body: InteractiveViewer(
@@ -35,10 +35,7 @@ class HomePage extends ConsumerWidget {
               ref.read(cursorPositionProvider.notifier).state =
                   details.localPosition;
               if (points.length > 1 &&
-                  (points.first - details.localPosition).distance <
-                      10.0) {
-                ref.read(pointsProvider.notifier).state =
-                    List.from(points)..add(points.first);
+                  (points.first - details.localPosition).distance < 10.0) {
                 ref.read(isPolygonCompletedProvider.notifier).state = true;
               }
             }
@@ -67,8 +64,13 @@ class HomePage extends ConsumerWidget {
                 ref.read(undoStackProvider.notifier).state =
                     List.from(undoStack)..add(List.from(points));
                 ref.read(redoStackProvider.notifier).state = [];
-                ref.read(pointsProvider.notifier).state = List.from(points)
-                  ..add(cursorPosition);
+                if (!(points.length > 1 &&
+                    (points.first - cursorPosition).distance < 10.0)) {
+                  ref.read(pointsProvider.notifier).state = List.from(points)
+                    ..add(cursorPosition);
+                } else {
+                  isPolygonCompleted = true;
+                }
                 ref.read(cursorPositionProvider.notifier).state =
                     cursorPosition;
               }
